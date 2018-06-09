@@ -30,4 +30,4 @@ const styles = {
     }
 };
 
-export default Button;
+export { Button };
