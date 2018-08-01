@@ -12,30 +12,38 @@ class LoginForm extends Component {
      */
     onLoginPressed() {
         const { email, password } = this.state;
-
+        // Reset error and loading state
         this.setState({ error: '', loading: true })
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(() => {
-
-            })
+            .then(this.onLoginSuccess.bind(this))
             .catch((reason) => {
                 console.log(reason);
-                this.createAnAccount(email, password);
+                firebase.auth().createUserWithEmailAndPassword(email, password)
+                    .then(this.onLoginSuccess.bind(this))
+                    .catch(this.onLoginFail.bind(this));
             });
     }
 
     /**
-     * Create user account
-     * @param {*} email 
-     * @param {*} password 
+     * On login success method
      */
-    createAnAccount(email, password) {
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .catch((reason) => {
-                console.log(reason);
-                // Re-render component and show error.
-                this.setState({ error: 'Authentication failed.' });
-            });
+    onLoginSuccess() {
+        this.setState({ 
+            email: '',
+            password: '',
+            error: '',  
+            loading: false
+        })
+    }
+
+    /**
+     * On login fail 
+     * @param {*} reason 
+     */
+    onLoginFail(reason) {
+        console.log(reason);
+        // Re-render component and show error.
+        this.setState({ error: reason.message, loading: false });
     }
 
     /**

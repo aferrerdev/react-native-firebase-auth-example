@@ -6,6 +6,8 @@ import firebase from 'firebase';
 
 class App extends Component {
 
+    state = { loggedIn: false }
+
     componentWillMount() {
         firebase.initializeApp({
             apiKey: 'AIzaSyDBM-NZojDZ2RLd3X1csRdFBfFWK4cPwqQ',
@@ -14,7 +16,16 @@ class App extends Component {
             projectId: 'react-auth-example-c222c',
             storageBucket: 'react-auth-example-c222c.appspot.com',
             messagingSenderId: '768163761866'
-          });
+        });
+
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ loggedIn: true });
+            }
+            else {
+                this.setState({ loggedIn: false });
+            }
+        });
     }
 
     render() {
