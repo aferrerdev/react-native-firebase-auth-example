@@ -5,13 +5,17 @@ class LoginForm extends Component {
 
     state = { email: '', password: '' }
 
+    onLoginPressed() {
+        
+    }
+
     render() {
         return (
             <Card>
                 <CardSection>
                     <Input
                         placeholder="user@domain.com"
-                        label={'Email'}  
+                        label="Email"  
                         value={this.state.email}
                         onChangeText={ text => this.setState({ email: text }) }
                     />
@@ -20,14 +24,15 @@ class LoginForm extends Component {
                 <CardSection>
                     <Input  
                         placeholder="Your secret"
-                        label={'Password'}
+                        label="Password"
                         value={this.state.password}
-                        onChangeText={ text => this.setState({ password: text }) }
+                        onChangeText={ password => this.setState({ password: password }) }
+                        secureTextEntry={true}
                     />
                 </CardSection>   
                 
                 <CardSection>
-                    <Button>Log in</Button>
+                    <Button oPress={this.onLoginPressed.bind(this)}>Log in</Button>
                 </CardSection>    
             </Card>
         );
